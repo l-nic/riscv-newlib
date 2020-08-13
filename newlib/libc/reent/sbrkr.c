@@ -40,17 +40,28 @@ DESCRIPTION
 	<<errno>>.
 */
 
+char* current_brk = 0;
+
+void sbrk_init (ptrdiff_t init_addr) {
+    current_brk = (char*)init_addr;
+}
+
 void *
 _sbrk_r (struct _reent *ptr,
      ptrdiff_t incr)
 {
-  char *ret;
-  void *_sbrk(ptrdiff_t);
+  printf("Calling sbrk with old brk %#lx and incr %ld\n", current_brk, (uint64_t)incr);
+  printf("incr signed is %ld\n", (int64_t)incr);
+  char* old_brk = current_brk;
+  current_brk += incr;
+  return old_brk;
+  // char *ret;
+  // void *_sbrk(ptrdiff_t);
 
-  errno = 0;
-  if ((ret = (char *)(_sbrk (incr))) == (void *) -1 && errno != 0)
-    ptr->_errno = errno;
-  return ret;
+  // errno = 0;
+  // if ((ret = (char *)(_sbrk (incr))) == (void *) -1 && errno != 0)
+  //   ptr->_errno = errno;
+  // return ret;
 }
 
 #endif /* ! defined (REENTRANT_SYSCALLS_PROVIDED) */
