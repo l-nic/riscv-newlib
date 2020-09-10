@@ -50,8 +50,8 @@ void *
 _sbrk_r (struct _reent *ptr,
      ptrdiff_t incr)
 {
-  printf("Calling sbrk with old brk %#lx and incr %ld\n", current_brk, (uint64_t)incr);
-  printf("incr signed is %ld\n", (int64_t)incr);
+//  printf("Calling sbrk with old brk %#lx and incr %ld\n", current_brk, (uint64_t)incr);
+//  printf("incr signed is %ld\n", (int64_t)incr);
   char* old_brk = current_brk;
   current_brk += incr;
   return old_brk;
